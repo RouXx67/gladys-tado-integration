@@ -1,0 +1,26 @@
+{
+  "name": "gladys-tado-integration",
+  "version": "1.0.0",
+  "private": true,
+  "description": "External integration to connect tado° thermostats and AC units to Gladys Assistant, without Home Assistant.",
+  "author": "RouXx67 <rouxx67@users.noreply.github.com>",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/"
+  },
+  "keywords": [
+    "gladys",
+    "gladysassistant",
+    "integration",
+    "tado"
+  ],
+  "dependencies": {
+    "@gladysassistant/integration-sdk": "^0.12.0"
+  }
+}
