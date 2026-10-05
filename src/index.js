@@ -61,8 +61,19 @@ tokenManager.setAuthenticatedCallbacks({
 
 // ---- SDK handlers -----------------------------------------------------------
 gladys.onScanRequest(async () => {
-  if (!tokenManager.hasSession()) throw new Error('Link your tado° account first.');
-  await controller.discover();
+  log.child('discovery').info('scan requested');
+  if (!tokenManager.hasSession()) {
+    const msg = 'tado° account not linked. Connect it in the Configuration tab.';
+    log.child('discovery').warn(msg);
+    throw new Error(msg);
+  }
+  try {
+    await controller.discover();
+  } catch (err) {
+    log.child('discovery').error(`scan failed: ${err.message}`);
+    if (err.stack) log.child('discovery').debug(err.stack);
+    throw err;
+  }
 });
 
 gladys.onSetValue(commands.handleSetValue);

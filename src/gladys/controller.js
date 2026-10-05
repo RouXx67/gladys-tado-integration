@@ -92,6 +92,9 @@ export class TadoController {
 
   async discover() {
     const me = await this.client.getMe();
+    this.logger.child('discovery').info(
+      `account "${me.name}" has ${(me.homes || []).length} home(s)`,
+    );
 
     const homes = await Promise.all(
       (me.homes || []).map(async (h) => {
@@ -102,6 +105,9 @@ export class TadoController {
           this.logger.child('discovery').warn(`skip home ${h.id}: ${err.message}`);
           return null;
         }
+        this.logger.child('discovery').info(
+          `home "${home.name || h.name}" id=${h.id} generation=${home.generation || 'unknown'}`,
+        );
         return {
           id: h.id,
           name: home.name || h.name,
@@ -158,7 +164,15 @@ export class TadoController {
       }
     }
 
-    await this.gladys.publishDiscoveredDevices(devices);
+    this.logger.child('discovery').info(`built ${devices.length} device(s)`);
+    try {
+      await this.gladys.publishDiscoveredDevices(devices);
+    } catch (err) {
+      this.logger.child('discovery').error(
+        `publishDiscoveredDevices rejected (${devices.length} devices): ${err.message}`,
+      );
+      throw err;
+    }
     await this.gladys.publishTransports(
       devices.map((d) => ({ external_id: d.external_id, transport: 'cloud' })),
     );
