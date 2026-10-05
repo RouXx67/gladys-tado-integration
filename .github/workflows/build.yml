@@ -20,7 +20,7 @@ on:
     branches: [main]
 
 env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
+  IMAGE_NAME: ghcr.io/rouxx67/gladys-tado-integration
 
 jobs:
   test:

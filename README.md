@@ -64,7 +64,7 @@ The tests do **not** need a tado° account and never reach the network.
 ## Build the Docker image
 
 ```bash
-docker build -t ghcr.io/RouXx67/gladys-tado-integration:1.0.0 .
+docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.1 .
 ```
 
 ## Install in Gladys
