@@ -55,14 +55,14 @@ depuis le catalogue.
 1. Créez un dépôt GitHub à partir de ce projet (ou poussez-le sur le vôtre).
 2. Mettez à jour `docker_image` dans `gladys-assistant-integration.json` avec
    votre référence `ghcr.io/...` (par défaut :
-   `ghcr.io/rouxx67/gladys-tado-integration:1.0.1`).
+   `ghcr.io/rouxx67/gladys-tado-integration:1.0.2`).
 3. Poussez un tag (ex. `v1.0.0`). GitHub Actions exécute les tests puis
    construit une image multi-architectures vers le registre de conteneurs
    GitHub.
 4. Dans Gladys : **Intégrations** → recherchez **tado°** → **Installer**.
 
 Installation manuelle :
-`docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.1 .`
+`docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.2 .`
 et poussez le tag correspondant à votre manifeste.
 
 ## Configuration
@@ -111,7 +111,7 @@ indique si l'équipement fonctionne actuellement.
 - `npm test` — exécute les tests unitaires. Ils utilisent des **réponses tado°
   simulées**, ne nécessitent **aucun identifiant** et **aucun appel réseau**.
 - Construction :
-  `docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.1 .`
+  `docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.2 .`
 
 ## Sécurité
 

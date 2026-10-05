@@ -50,15 +50,19 @@ test('on 401 it force-refreshes the token and retries once', async () => {
   }));
   // Return a fresh but always-valid token; the point is that the client retries
   // the request after a forced refresh instead of failing.
+  const forceFlags = [];
   const realGetToken = async (force) => {
     authCalls += 1;
-    assert.equal(force, true, '401 must trigger a forced refresh');
+    forceFlags.push(force);
     return 'fresh';
   };
   const c = makeClient(f.impl, realGetToken);
   const { data } = await c.getMe();
   assert.deepEqual(data, { ok: true });
   assert.equal(authCalls, 2);
+  // First call (initial) is not forced; the retry after the 401 IS forced.
+  assert.equal(forceFlags[0], undefined);
+  assert.equal(forceFlags[1], true);
 });
 
 test('throws RateLimitedError on 429 and honours retry-after', async () => {

@@ -52,13 +52,13 @@ once, then any Gladys can install it from the catalog in one click.
 1. Create a GitHub repository from this project (or push it to your own).
 2. Update `docker_image` in `gladys-assistant-integration.json` to your
    `ghcr.io/...` reference (by default:
-   `ghcr.io/rouxx67/gladys-tado-integration:1.0.1`).
+   `ghcr.io/rouxx67/gladys-tado-integration:1.0.2`).
 3. Push a tag (e.g. `v1.0.0`). GitHub Actions runs the tests and builds a
    multi-arch image to the GitHub Container Registry.
 4. In Gladys, go to **Integrations** → search **tado°** → **Install**.
 
 To install manually:
-`docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.1 .`
+`docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.2 .`
 and push the tag matching your manifest.
 
 ## Configuration
@@ -103,7 +103,7 @@ unit is currently running.
 - `npm ci` — install (Node.js ≥ 20).
 - `npm test` — run the unit tests. They use **mocked tado° responses**, need
   **no credentials** and make **no network calls**.
-- Build: `docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.1 .`
+- Build: `docker build -t ghcr.io/rouxx67/gladys-tado-integration:1.0.2 .`
 
 ## Security
 

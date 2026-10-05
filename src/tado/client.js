@@ -143,27 +143,27 @@ export class TadoClient {
   }
 
   async getMe() {
-    return this.get({ path: API_PATH.me });
+    return this.get(API_PATH.me);
   }
 
   async getHome(homeId) {
-    return this.get({ path: API_PATH.home(homeId) });
+    return this.get(API_PATH.home(homeId));
   }
 
   async getZones(homeId) {
-    return this.get({ path: API_PATH.zones(homeId) });
+    return this.get(API_PATH.zones(homeId));
   }
 
   async getZoneStates(homeId) {
-    return this.get({ path: API_PATH.zoneStates(homeId) });
+    return this.get(API_PATH.zoneStates(homeId));
   }
 
   async getZoneState(homeId, zoneId) {
-    return this.get({ path: API_PATH.zoneState(homeId, zoneId) });
+    return this.get(API_PATH.zoneState(homeId, zoneId));
   }
 
   async getZoneCapabilities(homeId, zoneId) {
-    return this.get({ path: API_PATH.capabilities(homeId, zoneId) });
+    return this.get(API_PATH.capabilities(homeId, zoneId));
   }
 
   async setOverlay(homeId, zoneId, overlay) {
