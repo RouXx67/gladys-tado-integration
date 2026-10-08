@@ -217,10 +217,7 @@ function acRunningFeature(externalId) {
 function valueOption(value, sortOrder, labels = MODE_LABELS) {
   return {
     value,
-    label: {
-      en: labels.en[value] || String(value),
-      fr: labels.fr[value] || String(value),
-    },
+    label: labels.en[value] || String(value),
     sort_order: sortOrder,
   };
 }
