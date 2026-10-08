@@ -1,0 +1,85 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "tado°",
+  "description": {
+    "en": "Connect your tado° thermostats and air conditioners to Gladys.",
+    "fr": "Connectez vos thermostats et climatiseurs tado° à Gladys."
+  },
+  "version": "1.0.3",
+  "docker_image": "ghcr.io/rouxx67/gladys-tado-integration:1.0.3",
+  "gladys_version": ">=4.86.0",
+  "categories": ["climate"],
+  "transports": ["cloud"],
+  "config_schema": [
+    {
+      "key": "account",
+      "type": "account_link",
+      "label": {
+        "en": "Link my tado° account",
+        "fr": "Lier mon compte tado°"
+      }
+    },
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Refresh options",
+        "fr": "Options de rafraîchissement"
+      },
+      "description": {
+        "en": "tado° rate-limits its REST API. Free accounts get 100 requests/day, subscribers 20,000/day. Keep the intervals conservative if you are on a free plan.",
+        "fr": "tado° limite son API REST. Les comptes gratuits disposent de 100 requêtes/jour, les abonnés de 20 000/jour. Restez sur des intervalles prudents sur une offre gratuite."
+      }
+    },
+    {
+      "key": "polling_interval_active_min",
+      "type": "number",
+      "label": {
+        "en": "Active polling interval (minutes)",
+        "fr": "Intervalle de sondage actif (minutes)"
+      },
+      "min": 5,
+      "max": 1440,
+      "default": 15,
+      "required": false
+    },
+    {
+      "key": "polling_interval_idle_min",
+      "type": "number",
+      "label": {
+        "en": "Idle polling interval (minutes)",
+        "fr": "Intervalle de sondage au repos (minutes)"
+      },
+      "min": 5,
+      "max": 1440,
+      "default": 60,
+      "required": false
+    },
+    {
+      "key": "overlay_termination",
+      "type": "select",
+      "label": {
+        "en": "Overlay termination",
+        "fr": "Type de consigne manuelle"
+      },
+      "options": [
+        {
+          "value": "MANUAL",
+          "label": {
+            "en": "Keep until changed (Manual)",
+            "fr": "Garder jusqu'à modification (Manuel)"
+          }
+        },
+        {
+          "value": "NEXT_TIME_BLOCK",
+          "label": {
+            "en": "Until next schedule block",
+            "fr": "Jusqu'au prochain bloc du programme"
+          }
+        }
+      ],
+      "default": "MANUAL"
+    }
+  ]
+}
