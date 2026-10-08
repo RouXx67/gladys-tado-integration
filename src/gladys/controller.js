@@ -88,14 +88,15 @@ export class TadoController {
   // ---- discovery ---------------------------------------------------------
 
   async discover() {
-    const me = await this.client.getMe();
+    const meRes = await this.client.getMe();
+    const me = meRes && meRes.data ? meRes.data : meRes;
     this.logger.child('discovery').info(
-      `account "${me.name || 'unknown'}" has ${(me.homes || []).length} home(s)`,
+      `account "${me && me.name || 'unknown'}" has ${(me && me.homes || []).length} home(s)`,
     );
     this.logger.child('discovery').debug('Full "me" object from Tado:', me);
 
     const homes = await Promise.all(
-      (me.homes || []).map(async (h) => {
+      (me && me.homes || []).map(async (h) => {
         let home;
         try {
           home = await this.client.getHome(h.id);
