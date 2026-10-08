@@ -151,38 +151,38 @@ export class TadoClient {
     if (this._logger && this._logger.child) {
       this._logger.child('client').debug('getMe response:', res.data);
     }
-    return res.data !== undefined ? res.data : res;
+    return res;
   }
 
   async getHome(homeId) {
     const res = await this.request({ path: API_PATH.home(homeId) });
-    return res.data !== undefined ? res.data : res;
+    return res.data;
   }
 
   async getZones(homeId) {
     const res = await this.request({ path: API_PATH.zones(homeId) });
-    return res.data !== undefined ? res.data : res;
+    return res.data;
   }
 
   async getZoneStates(homeId) {
     const res = await this.request({ path: API_PATH.zoneStates(homeId) });
-    return res.data !== undefined ? res.data : res;
+    return res.data;
   }
 
   async getZoneState(homeId, zoneId) {
     const res = await this.request({ path: API_PATH.zoneState(homeId, zoneId) });
-    return res.data !== undefined ? res.data : res;
+    return res.data;
   }
 
   async getZoneCapabilities(homeId, zoneId) {
     const res = await this.request({ path: API_PATH.capabilities(homeId, zoneId) });
-    return res.data !== undefined ? res.data : res;
+    return res.data;
   }
 
   async getZoneDevices(homeId, zoneId) {
     try {
       const res = await this.request({ path: API_PATH.devices(homeId, zoneId) });
-      return res.data !== undefined ? res.data : res;
+      return res.data;
     } catch (err) {
       if (this._logger && this._logger.child) {
         this._logger.child('client').warn(`getZoneDevices failed for ${homeId}:${zoneId}: ${err.message}`);
@@ -194,7 +194,7 @@ export class TadoClient {
   async getHomeDevices(homeId) {
     try {
       const res = await this.request({ path: API_PATH.homeDevices(homeId) });
-      return res.data !== undefined ? res.data : res;
+      return res.data;
     } catch (err) {
       if (this._logger && this._logger.child) {
         this._logger.child('client').warn(`getHomeDevices failed for ${homeId}: ${err.message}`);
@@ -216,8 +216,7 @@ export class TadoClient {
   }
 
   async get(path) {
-    const res = await this.request({ path });
-    return res.data !== undefined ? res.data : res;
+    return this.request({ path });
   }
 }
 
