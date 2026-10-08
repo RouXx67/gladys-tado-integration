@@ -89,28 +89,42 @@ export class TadoController {
 
   async discover() {
     const meRes = await this.client.getMe();
-    const me = meRes && meRes.data ? meRes.data : meRes;
+    let me = meRes && meRes.data ? meRes.data : meRes;
+    // Unwrap recursively if wrapped
+    let prev;
+    for (let i = 0; i < 3 && me && me !== prev && me.data; i++) {
+      prev = me;
+      me = me.data;
+    }
+    me = me || meRes || meRes?.data;
     this.logger.child('discovery').info(
-      `account "${me && me.name || 'unknown'}" has ${(me && me.homes || []).length} home(s)`,
+      `account "${me && (me.name || me.username || 'unknown')}" has ${(me && (me.homes || me.homeIds || []))?.length || 0} home(s)`,
     );
-    this.logger.child('discovery').debug('Full "me" object from Tado:', me);
+    this.logger.child('discovery').debug('Full "me" object from Tado:', JSON.stringify(me));
 
+    let meHomes = [];
+    if (Array.isArray(me)) {
+      meHomes = me;
+    } else if (me && (me.homes || me.homeIds || me.data?.homes || me.data?.homeIds)) {
+      meHomes = me.homes || me.homeIds || me.data?.homes || me.data?.homeIds;
+    }
     const homes = await Promise.all(
-      (me && me.homes || []).map(async (h) => {
+      meHomes.map(async (h) => {
+        const homeId = typeof h === 'object' ? h.id : h;
         let home;
         try {
-          home = await this.client.getHome(h.id);
+          home = await this.client.getHome(homeId);
         } catch (err) {
-          this.logger.child('discovery').warn(`skip home ${h.id}: ${err.message}`);
+          this.logger.child('discovery').warn(`skip home ${homeId}: ${err.message}`);
           return null;
         }
         this.logger.child('discovery').info(
-          `home "${home.name || h.name}" id=${h.id} generation=${home.generation || 'unknown'}`,
+          `home "${home.name || (typeof h === 'object' ? h.name : '')}" id=${homeId} generation=${home.generation || (typeof h === 'object' ? h.generation : 'unknown') || 'unknown'}`,
         );
         return {
-          id: h.id,
-          name: home.name || h.name,
-          generation: home.generation || GENERATION.V3,
+          id: homeId,
+          name: home.name || (typeof h === 'object' ? h.name : undefined),
+          generation: home.generation || (typeof h === 'object' ? h.generation : undefined) || GENERATION.V3,
         };
       }),
     );
